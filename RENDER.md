@@ -13,7 +13,8 @@
    - **Region:** choose one (e.g. Oregon).
    - **Root Directory:** `backend` (if the backend lives in a `backend` folder). Leave blank if the repo root is the backend.
    - **Runtime:** Node.
-   - **Build Command:** `npm install && npm run build`
+   - **Build Command:** `npm install --include=dev && npm run build`  
+     (Use `--include=dev` so the Nest CLI is installed; otherwise the build can fail with “nest: not found”.)
    - **Start Command:** `npm run start`
 4. Under **Environment** add:
 
