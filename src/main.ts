@@ -1,22 +1,23 @@
 import cors from 'cors';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { config, getCorsOrigin } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Apply CORS first so every response (including errors) has CORS headers
-  app.use(
-    cors({
-      origin: true,
-      methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    }),
-  );
-  app.enableCors({
-    origin: true,
-    methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
+
+  const corsOptions = {
+    origin: getCorsOrigin(),
+    methods: ['GET', 'POST', 'OPTIONS', 'HEAD'] as const,
     allowedHeaders: ['Content-Type', 'Authorization'],
-  });
-  await app.listen(process.env.PORT || 3001);
+  };
+  app.use(cors(corsOptions));
+  app.enableCors(corsOptions);
+
+  const port = config.port;
+  await app.listen(port);
+  if (config.nodeEnv !== 'test') {
+    console.log(`Listening on port ${port}`);
+  }
 }
 bootstrap();

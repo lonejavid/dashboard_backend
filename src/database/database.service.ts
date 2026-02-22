@@ -1,18 +1,20 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { Pool } from 'pg';
+import { config } from '../config';
 
 @Injectable()
 export class DatabaseService implements OnModuleDestroy {
   private pool: Pool;
 
   constructor() {
+    const { db } = config;
     this.pool = new Pool({
-      host: process.env.DB_HOST || 'test-db.c6dskocumuuy.us-east-1.rds.amazonaws.com',
-      port: parseInt(process.env.DB_PORT || '5432', 10),
-      database: process.env.DB_NAME || 'spamsite',
-      user: process.env.DB_USER || 'omar',
-      password: process.env.DB_PASSWORD || 'omar12345',
-      ssl: { rejectUnauthorized: false },
+      host: db.host,
+      port: db.port,
+      database: db.database,
+      user: db.user,
+      password: db.password,
+      ssl: db.host !== 'localhost' ? { rejectUnauthorized: false } : false,
       max: 5,
     });
   }
