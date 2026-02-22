@@ -1,0 +1,21 @@
+# Render Blueprint (optional). Or use Dashboard: New → Web Service.
+services:
+  - type: web
+    name: dashboard-api
+    runtime: node
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
