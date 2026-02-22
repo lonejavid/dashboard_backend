@@ -1,9 +1,17 @@
+import cors from 'cors';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Allow all origins so Vercel (and any preview URL) can call this API
+  // Apply CORS first so every response (including errors) has CORS headers
+  app.use(
+    cors({
+      origin: true,
+      methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }),
+  );
   app.enableCors({
     origin: true,
     methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
