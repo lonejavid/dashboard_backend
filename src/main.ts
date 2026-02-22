@@ -3,14 +3,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Allow all origins so Vercel (and any preview URL) can call this API
   app.enableCors({
-    origin: [
-      'https://dashboard-onrorb.vercel.app',
-      /\.vercel\.app$/,
-      /\.onrender\.com$/,
-      'http://localhost:5173',
-      'http://localhost:3000',
-    ],
+    origin: true,
     methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
